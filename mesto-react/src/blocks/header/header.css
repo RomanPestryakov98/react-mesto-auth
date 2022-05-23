@@ -1,0 +1,27 @@
+.header {
+  position: relative;
+  width: 100%;
+  padding-top: 40px;
+  padding-bottom: 41px;
+}
+
+.header::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(84, 84, 84, 0.7);
+}
+
+@media screen and (max-width: 745px) {
+  .header {
+    position: static;
+    padding-bottom: 28px;
+    padding-bottom: 31px;
+  }
+  .header::after {
+    top: 98.39px;
+  }
+}
