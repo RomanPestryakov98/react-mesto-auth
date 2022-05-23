@@ -2,7 +2,7 @@ import deleteUrn from '../images/elements/delete.svg';
 
 function Card(props) {
 	function handleClick() {
-		props.onCardClick(props.card.link);
+		props.onCardClick({ link: props.card.link, name: props.card.name });
 	}
 
 	return (

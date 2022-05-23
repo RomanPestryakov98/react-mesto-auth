@@ -5,8 +5,6 @@ import Card from './Card';
 import api from '../utils/Api.js';
 import React from 'react';
 
-
-
 function Main(props) {
 	const [userName, setUserName] = React.useState('');
 	const [userDescription, setUserDescription] = React.useState('');
@@ -34,7 +32,6 @@ function Main(props) {
 				console.log(err)
 			})
 	}, [])
-
 
 	return (
 		<main className="content">
