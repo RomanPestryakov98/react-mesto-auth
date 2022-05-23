@@ -3,7 +3,7 @@ import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
 import PopupWithForm from './PopupWithForm';
-import ImagesPopup from './ImagesPopup';
+import ImagePopup from './ImagePopup';
 
 function App() {
 	const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -83,7 +83,7 @@ function App() {
 				</label>
 				<button type="submit" className="popup__submit">Сохранить</button>
 			</PopupWithForm>
-			<ImagesPopup card={selectedCard} onClose={closeAllPopups} />
+			<ImagePopup card={selectedCard} onClose={closeAllPopups} />
 		</div>
 	);
 }

@@ -1,6 +1,6 @@
 import close from '../images/popup/close.svg';
 
-function ImagesPopup(props) {
+function ImagePopup(props) {
 	return (
 		<div className={props.card ? `popup popup_type_image popup_opened` : `popup popup_type_image`}>
 			<div className="popup__overlay popup__overlay_type_image"></div>
@@ -17,4 +17,4 @@ function ImagesPopup(props) {
 	)
 }
 
-export default ImagesPopup;
+export default ImagePopup;
