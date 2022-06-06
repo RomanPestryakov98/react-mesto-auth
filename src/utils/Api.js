@@ -33,7 +33,7 @@ class Api {
 			headers: this._headers,
 			body: JSON.stringify({
 				name: data.name,
-				about: data.info
+				about: data.about
 			})
 		})
 			.then(this._checkResponse);
@@ -80,7 +80,7 @@ class Api {
 			method: 'PATCH',
 			headers: this._headers,
 			body: JSON.stringify({
-				avatar: data.link
+				avatar: data.avatar
 			})
 		})
 			.then(this._checkResponse);

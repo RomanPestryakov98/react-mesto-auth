@@ -10,3 +10,7 @@
 .element__delete:hover {
   opacity: 0.6;
 }
+
+.element__delete_hidden {
+	display: none;
+}
