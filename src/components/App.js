@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
@@ -11,16 +11,17 @@ import AddPlacePopup from './AddPlacePopup';
 import DeleteCardPopup from './DeleteCardPopup';
 
 function App() {
-	const [currentUser, setCurrentUser] = React.useState({});
-	const [cards, setCards] = React.useState([]);
-	const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-	const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-	const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-	const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(false);
-	const [selectedCard, setSelectedCard] = React.useState(null);
-	const [isLoading, setIsLoading] = React.useState(false);
-	const [card, setCard] = React.useState({});
-	React.useEffect(() => {
+	const [currentUser, setCurrentUser] = useState({});
+	const [cards, setCards] = useState([]);
+	const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+	const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+	const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+	const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = useState(false);
+	const [selectedCard, setSelectedCard] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
+	const [card, setCard] = useState({});
+
+	useEffect(() => {
 		api.getDataCards()
 			.then(data => {
 				setCards([...cards, ...data])
@@ -30,7 +31,7 @@ function App() {
 			})
 	}, [])
 
-	React.useEffect(() => {
+	useEffect(() => {
 		api.getDataProfile()
 			.then(data => {
 				setCurrentUser(data)
@@ -40,72 +41,88 @@ function App() {
 			})
 	}, [])
 
-	function renderLoading() {
-		setIsLoading(true)
-	}
-
 	function handleCardLike(card) {
 		const isLiked = card.likes.some(i => i._id === currentUser._id);
-		if (isLiked) {
-			api.deleteLike(card._id).then((newCard) => {
-				setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
+		api.toggleLike(card._id, isLiked).then((newCard) => {
+			setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
+		})
+			.catch(err => {
+				console.log(err)
 			})
-		} else {
-			api.addLike(card._id).then((newCard) => {
-				setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
-			});
-		}
 	}
 
 	function handleCardDelete(card) {
-		api.deleteCard(card._id);
-		const newCards = cards.filter(function (item) {
-			return item._id !== card._id;
-		})
-		setCards(newCards);
-		closeAllPopups();
+		api.deleteCard(card._id)
+			.then(() => {
+				const newCards = cards.filter(function (item) {
+					return item._id !== card._id;
+				})
+				setCards(newCards);
+				closeAllPopups();
+			})
+			.catch(err => {
+				console.log(err)
+			})
 	}
 
 	function handleEditAvatarClick() {
-		setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
+		setIsEditAvatarPopupOpen(true);
 	}
 
 	function handleEditProfileClick() {
-		setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
+		setIsEditProfilePopupOpen(true);
 	}
 
 	function handleAddPlaceClick() {
-		setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
+		setIsAddPlacePopupOpen(true);
 	}
 	function handleDeleteCardClick(card) {
 		setCard(card);
-		setIsDeleteCardPopupOpen(!isDeleteCardPopupOpen);
+		setIsDeleteCardPopupOpen(true);
 	}
 
 	function handleUpdateUser(data) {
+		setIsLoading(true);
 		api.updateDataProfile(data)
 			.then(data => {
 				setCurrentUser(data);
-				setIsLoading(false);
 				closeAllPopups();
+			})
+			.catch(err => {
+				console.log(err)
+			})
+			.finally(() => {
+				setIsLoading(false);
 			})
 	}
 
 	function handleUpdateAvatar(data) {
+		setIsLoading(true);
 		api.updateAvatar(data)
 			.then(data => {
 				setCurrentUser(data);
-				setIsLoading(false);
 				closeAllPopups();
+			})
+			.catch(err => {
+				console.log(err)
+			})
+			.finally(() => {
+				setIsLoading(false);
 			})
 	}
 
 	function handleAddCard(data) {
+		setIsLoading(true);
 		api.addNewCard(data)
 			.then(data => {
 				setCards([data, ...cards]);
-				setIsLoading(false);
 				closeAllPopups();
+			})
+			.catch(err => {
+				console.log(err)
+			})
+			.finally(() => {
+				setIsLoading(false);
 			})
 	}
 
@@ -140,27 +157,25 @@ function App() {
 					onClose={closeAllPopups}
 					onUpdateUser={handleUpdateUser}
 					isLoading={isLoading}
-					renderLoading={renderLoading}
 				/>
 				<EditAvatarPopup
 					isOpen={isEditAvatarPopupOpen}
 					onClose={closeAllPopups}
 					onUpdateAvatar={handleUpdateAvatar}
 					isLoading={isLoading}
-					renderLoading={renderLoading}
 				/>
 				<AddPlacePopup
 					isOpen={isAddPlacePopupOpen}
 					onClose={closeAllPopups}
 					onAddCard={handleAddCard}
 					isLoading={isLoading}
-					renderLoading={renderLoading}
 				/>
 				<DeleteCardPopup
 					isOpen={isDeleteCardPopupOpen}
 					onClose={closeAllPopups}
 					onDeleteCard={handleCardDelete}
 					card={card}
+					isLoading={isLoading}
 				/>
 				<ImagePopup card={selectedCard} onClose={closeAllPopups} />
 			</div>

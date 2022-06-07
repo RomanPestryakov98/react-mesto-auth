@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PopupWithForm from './PopupWithForm';
 
 function AddPlacePopup(props) {
-	const [title, setTitle] = React.useState('');
-	const [link, setLink] = React.useState('');
-	const [isTitleValid, setIsTitleValid] = React.useState(false);
-	const [isLinkValid, setIsLinkValid] = React.useState(false);
-	const inputTitleRef = React.useRef();
-	const inputLinkRef = React.useRef();
-	const spanTitleRef = React.useRef();
-	const spanLinkRef = React.useRef();
+	const [title, setTitle] = useState('');
+	const [link, setLink] = useState('');
+	const [isTitleValid, setIsTitleValid] = useState(false);
+	const [isLinkValid, setIsLinkValid] = useState(false);
+	const inputTitleRef = useRef();
+	const inputLinkRef = useRef();
+	const spanTitleRef = useRef();
+	const spanLinkRef = useRef();
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setIsTitleValid(false);
 		setIsLinkValid(false);
 	}, [props.isOpen]);
@@ -41,7 +41,6 @@ function AddPlacePopup(props) {
 	}
 
 	function handleSubmit(e) {
-		props.renderLoading();
 		e.preventDefault();
 		props.onAddCard({ name: title, link: link });
 		e.target.reset();
@@ -51,12 +50,12 @@ function AddPlacePopup(props) {
 		<PopupWithForm name='add-card' title='Новое место' isOpen={props.isOpen} isValid={[isTitleValid, isLinkValid]} onClose={props.onClose} buttonText='Создать' onSubmit={handleSubmit} isLoading={props.isLoading} renderLoadingText='Создание...'>
 			<label className="popup__label">
 				<input type="text" placeholder="Название" className="popup__input popup__input_type_title" id="input-title"
-					required minLength="2" maxLength="30" name="name" onChange={handleTitleChange} ref={inputTitleRef} />
+					required minLength="2" maxLength="30" name="name" onChange={handleTitleChange} ref={inputTitleRef} value={title} />
 				<span className={`popup__error input-url-avatar-error ${!isTitleValid && 'popup__error_visible'}`} ref={spanTitleRef}></span>
 			</label>
 			<label className="popup__label">
 				<input type="url" placeholder="Ссылка на картинку" className="popup__input popup__input_type_link" id="input-url"
-					required name="link" onChange={handleLinkChange} ref={inputLinkRef} />
+					required name="link" onChange={handleLinkChange} ref={inputLinkRef} value={link} />
 				<span className={`popup__error input-url-avatar-error ${!isLinkValid && 'popup__error_visible'}`} ref={spanLinkRef}></span>
 			</label>
 		</PopupWithForm>

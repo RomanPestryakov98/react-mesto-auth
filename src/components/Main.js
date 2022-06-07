@@ -2,11 +2,11 @@ import edit from '../images/profile/edit.svg';
 import plus from '../images/profile/plus.svg';
 import redaction from '../images/profile/redaction.svg';
 import Card from './Card';
-import React from 'react';
+import React, { useContext } from 'react';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
 function Main(props) {
-	const currentUser = React.useContext(CurrentUserContext);
+	const currentUser = useContext(CurrentUserContext);
 
 	return (
 		<main className="content">

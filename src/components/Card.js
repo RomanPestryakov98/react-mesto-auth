@@ -1,9 +1,9 @@
 import deleteUrn from '../images/elements/delete.svg';
 import CurrentUserContext from '../contexts/CurrentUserContext';
-import React from 'react';
+import React, { useContext } from 'react';
 
 function Card(props) {
-	const currentUser = React.useContext(CurrentUserContext);
+	const currentUser = useContext(CurrentUserContext);
 	const isOwn = props.card.owner._id === currentUser._id;
 	const cardDeleteButtonClassName = (
 		`element__delete ${isOwn ? 'element__delete_visible' : 'element__delete_hidden'}`

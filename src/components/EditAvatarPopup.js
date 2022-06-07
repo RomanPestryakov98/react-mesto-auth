@@ -1,17 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PopupWithForm from './PopupWithForm';
 
 function EditAvatarPopup(props) {
-	const avatarRef = React.useRef();
-	const spanRef = React.useRef();
-	const [isValidLink, setIsValidLink] = React.useState(false);
+	const avatarRef = useRef();
+	const spanRef = useRef();
+	const [isValidLink, setIsValidLink] = useState(false);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setIsValidLink(false);
 	}, [props.isOpen]);
 
 	function handleSubmit(e) {
-		props.renderLoading();
 		e.preventDefault();
 		props.onUpdateAvatar({ avatar: avatarRef.current.value })
 		avatarRef.current.value = '';

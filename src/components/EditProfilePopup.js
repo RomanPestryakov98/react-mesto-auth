@@ -1,20 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import PopupWithForm from './PopupWithForm';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
 function EditProfilePopup(props) {
-	const currentUser = React.useContext(CurrentUserContext);
-	const [name, setName] = React.useState('');
-	const [description, setDescription] = React.useState('');
-	const [isValidName, setIsValidName] = React.useState(true);
-	const [isValidDescription, setIsValidDescription] = React.useState(true);
-	const inputNameRef = React.useRef();
-	const inputDescriptionRef = React.useRef();
+	const currentUser = useContext(CurrentUserContext);
+	const [name, setName] = useState('');
+	const [description, setDescription] = useState('');
+	const [isValidName, setIsValidName] = useState(true);
+	const [isValidDescription, setIsValidDescription] = useState(true);
+	const inputNameRef = useRef();
+	const inputDescriptionRef = useRef();
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setName(currentUser.name);
 		setDescription(currentUser.about);
-	}, [currentUser]);
+	}, [currentUser, props.isOpen]);
 
 
 	function handleNameChange(e) {
@@ -38,7 +38,6 @@ function EditProfilePopup(props) {
 	}
 
 	function handleSubmit(e) {
-		props.renderLoading();
 		e.preventDefault();
 		props.onUpdateUser({
 			name,
