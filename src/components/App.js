@@ -14,7 +14,7 @@ import InfoTooltip from './InfoTooltip';
 import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
-import * as auth from '../auth.js';
+import * as auth from '../utils/auth.js';
 
 function App() {
 	const [currentUser, setCurrentUser] = useState({});
@@ -76,7 +76,7 @@ function App() {
 	function tokenCheck() {
 		const token = localStorage.getItem('token');
 		if (token) {
-			auth.validate(token)
+			auth.validateToken(token)
 				.then(data => {
 					if (data) {
 						setLoggedIn(true)
