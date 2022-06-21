@@ -8,8 +8,8 @@ function EditProfilePopup(props) {
 	const [description, setDescription] = useState('');
 	const [isValidName, setIsValidName] = useState(true);
 	const [isValidDescription, setIsValidDescription] = useState(true);
-	const inputNameRef = useRef();
-	const inputDescriptionRef = useRef();
+	const spanNameRef = useRef();
+	const spanDescriptionRef = useRef();
 
 	useEffect(() => {
 		setName(currentUser.name);
@@ -21,9 +21,11 @@ function EditProfilePopup(props) {
 		setName(e.target.value)
 		if (!e.target.validity.valid) {
 			setIsValidName(false)
+			spanNameRef.current.textContent = e.target.validationMessage;
 		}
 		else {
 			setIsValidName(true)
+			spanNameRef.current.textContent = '';
 		}
 	}
 
@@ -31,9 +33,11 @@ function EditProfilePopup(props) {
 		setDescription(e.target.value)
 		if (!e.target.validity.valid) {
 			setIsValidDescription(false)
+			spanDescriptionRef.current.textContent = e.target.validationMessage;
 		}
 		else {
 			setIsValidDescription(true)
+			spanDescriptionRef.current.textContent = '';
 		}
 	}
 
@@ -50,13 +54,13 @@ function EditProfilePopup(props) {
 		<PopupWithForm name='profile' title='Редактировать профиль' isOpen={props.isOpen} onClose={props.onClose} isValid={[isValidName, isValidDescription]} buttonText='Сохранить' onSubmit={handleSubmit} isLoading={props.isLoading} renderLoadingText='Сохранение...'>
 			<label className="popup__label">
 				<input type="text" placeholder="Имя" className="popup__input popup__input_type_name" id="input-name" required
-					minLength="2" maxLength="40" name="name" onChange={handleNameChange} value={name} ref={inputNameRef} />
-				<span className={`popup__error input-name-error ${!isValidName && 'popup__error_visible'}`}>{!isValidName && inputNameRef.current.validationMessage}</span>
+					minLength="2" maxLength="40" name="name" onChange={handleNameChange} value={name || ""} />
+				<span className={`popup__error input-name-error ${!isValidName && 'popup__error_visible'}`} ref={spanNameRef}></span>
 			</label>
 			<label className="popup__label">
 				<input type="text" placeholder="О себе" className="popup__input popup__input_type_about" id="input-about" required
-					minLength="2" maxLength="200" name="info" onChange={handleDescriptionChange} value={description} ref={inputDescriptionRef} />
-				<span className={`popup__error input-about-error ${!isValidDescription && 'popup__error_visible'}`}>{!isValidDescription && inputDescriptionRef.current.validationMessage}</span>
+					minLength="2" maxLength="200" name="info" onChange={handleDescriptionChange} value={description || ""} />
+				<span className={`popup__error input-about-error ${!isValidDescription && 'popup__error_visible'}`} ref={spanDescriptionRef}></span>
 			</label>
 		</PopupWithForm>
 	)
