@@ -195,6 +195,7 @@ function App() {
 	}
 
 	function authorization(password, email) {
+		console.log()
 		auth.authorize(password, email)
 			.then(data => {
 				localStorage.setItem('token', data.token);
