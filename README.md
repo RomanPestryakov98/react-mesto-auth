@@ -38,6 +38,4 @@
 
 `npm run build` - запуск сборки проекта
 
-`npm run deploy` - публикация сборки на github pages
-
 ### [Ссылка на макет в Figma](https://www.figma.com/file/WBK7hfpfzXaZnQKvWHLkWx/JavaScript-9-sprint-Copy?node-id=0%3A1)
